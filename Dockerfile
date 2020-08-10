@@ -32,7 +32,7 @@ RUN adduser -D -h "${GIT_USER_HOME}" -s /usr/bin/git-shell "${GIT_USER_NAME}" &&
 # ADD --chown="${GIT_USER_NAME}":"${GIT_USER_NAME}" home/* "${GIT_USER_HOME}"/
 
 RUN mkdir --mode 750 "${GIT_USER_HOME}"/.git-repositories/ && \
-        ln -s "${GIT_USER_HOME}"/.git-repositories/ "${GIT_USER_HOME}"/repository && \
+        ln -s "${GIT_USER_HOME}"/.git-repositories/ "${GIT_USER_HOME}"/repositories && \
         ln -s "${GIT_USER_HOME}"/.git-repositories/ "${GIT_USER_HOME}"/repos && \
         ln -s "${GIT_USER_HOME}"/.git-repositories/ "${GIT_USER_HOME}"/r
 
@@ -40,7 +40,8 @@ VOLUME "${GIT_USER_HOME}"/.git-repositories/
 
 EXPOSE 22
 
-ADD --chown=root:root sshdi /usr/bin/sshdi
+ADD --chown=root:root sshdi.sh /usr/bin/sshdi.sh
 
-ENTRYPOINT ["/usr/bin/sshdi"]
+# we need to run it as `root` user
+ENTRYPOINT ["/usr/bin/sshdi.sh"]
 
