@@ -80,7 +80,8 @@ Key has been added to `/home/git/.ssh/authorized_keys`.
 ```
 
 Continuing from this step you can either run server manually (but you *won't be able to stop process using Ctrl+C* or other binding since your standard input will be attached to running sshd instance):
-```sh
+
+```
 Welcome to configure script!
 Type `keys` to see little help about keys manipulating.
 Type `run` (not recommended) to exec server.
@@ -94,7 +95,7 @@ Executing sshd server (not recommended if you are in `attached` mode,
 a.k.a --interactive --tty flags are provided to docker run).
 ```
 
-Or exit typing `exit`/Ctrl+D and restart the container in detached mod:
+Or exit typing `exit`/Ctrl+D and restart the container in detached mode:
 
 ```sh
 docker start my_precious_git_repository_server
