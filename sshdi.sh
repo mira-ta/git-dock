@@ -2,6 +2,7 @@
 # Script for interactive configuring sshd server
 # in docker container.
 
+INTERACTIVE_CONTROL_FILE_FLAG="`cat /var/run/git_user_home`/.git-repositories/.interactive-disabled"
 SSHD_COMMAND="/usr/sbin/sshd"
 SSH_SYSTEM_CONFIGURATION_DIRECTORY="/etc/ssh"
 SSH_USER_CONFIGURATION_DIRECTORY="`cat /var/run/git_user_home`/.ssh"
@@ -104,19 +105,22 @@ run() {
 main() {
     echo "Welcome to configure script!" >&2
     echo "Type \`keys\` to see little help about keys manipulating." >&2
-    echo "Type \`run\` to exec server." >&2
+    echo "Type \`run\` (not recommended) to exec server." >&2
+    echo "Type \`exit\` or tap Ctrl+D to exit configure script." >&2
 
-    while read; do
+    while echo -n "> " && read; do
         eval "${REPLY}"
     done
 }
 
 # check is everything ok
-if [ "${*}" == "run" ]; then
+if [ -e "${INTERACTIVE_CONTROL_FILE_FLAG}" ]; then
     run
-fi
+else
+    touch "${INTERACTIVE_CONTROL_FILE_FLAG}"
 
-# run the entrypoint main function with provided
-# arguments
-main "${@}"
+    # run the entrypoint main function with provided
+    # arguments
+    main "${@}"
+fi
 
